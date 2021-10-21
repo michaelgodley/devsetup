@@ -20,7 +20,7 @@ if [[ "$1" == "dev" ]]; then
     aptinstall screen
     aptinstall git
     aptinstall make
-    aptinstall emacs
+    #aptinstall emacs
     aptinstall jq
     linkDotfile .gitmessage
     linkDotfile .gitconfig

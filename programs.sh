@@ -10,7 +10,7 @@ cd ./scripts
 
 if [[ "$1" == "dev" ]]; then
     echo "Installing Development Tools"
-    ./emacs.sh
+    #./emacs.sh
     ./node.sh
     ./terraform.sh
     ./awscli.sh
