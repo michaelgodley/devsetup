@@ -22,6 +22,10 @@ if [[ "$1" == "dev" ]]; then
     aptinstall make
     #aptinstall emacs
     aptinstall jq
+    aptinstall git-flow
+    aptinstall rustc
+    aptinstall golang-go
+    aptinstall ansible
     linkDotfile .gitmessage
     linkDotfile .gitconfig
     linkDotfile .screenrc
