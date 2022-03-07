@@ -1,22 +1,42 @@
 escape  "^Tt"                         # ctrl-A default interferes with emacs keybindings for terminal
 
+# Automatically detach on hangup.
+autodetach	on	# default: on
+
+# Don't display the cpoyright page
+startup_message	off	# default: on
+
+# Uses nethack-style messages
+# nethack 	off	# default: off
+
+# Affects the copying of text regions
+crlf 		off	# default: off
+
+# Change default scrollback value for new windows
+defscrollback 	10000	# default: 100
+
+# Define the time that all windows monitored for silence should
+# wait before displaying a message. Default 30 seconds.
+silencewait 	15	# default: 30
+
+deflogin	off	#default: on
+hardcopy_append	on	# default: off
+activity	"%C -> %n%f %t activity!"
+bell		"%C -> %n%f %t bell!~"
+pow_detach_msg	"BYE"
+vbell		off
+vbell_msg	" *beep* "
+
 # Allow bold colors - necessary for some reason
 attrcolor b ".I"
 
-# Tell screen how to set colors. AB = background, AF=foreground
-#termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
-
-# Enables use of shift-PgUp and shift-PgDn
-#termcapinfo xterm|xterms|xs|rxvt ti@:te@
-
-# Erase background with current bg color
-#defbce "on"
-
-# Enable 256 color term
-#term xterm-256color
-
-# Cache 30000 lines for scroll back
-#defscrollback 30000
+# Remove various keyboard bindings
+bind x
+bind ^x
+bind h
+bind ^h
+# Enable more sane key bindings
+bind K kill
 
 # Emacs compatibility
 # Easy switching of windows without p/n confusion, as ctrl-p and ctrl-n
@@ -26,14 +46,14 @@ bind ^U prev
 bind 'j' next
 bind ^J next
 
-
 sorendition "+b kG"
 
+#caption always "%{kG}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kG}%?%+Lw%?"
 hardstatus on
 hardstatus alwayslastline
-hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
+hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a load: %l%="
+#hardstatus string "%{BW}%C%a, %D, %M %d, %Y%37=%{RY} host: %H %72=%{YR} load: %l%="
 # hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
-
 
 screen -t shell 1
 screen -t shell 2
