@@ -57,7 +57,7 @@ hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a loa
 
 screen -t shell 1
 screen -t shell 2
-screen -t Editor 3
+screen -t shell 3
 screen -t shell 4
-screen -t log 5
+screen -t shell 5
 screen -t shell 6
