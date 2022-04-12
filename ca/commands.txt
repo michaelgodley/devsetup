@@ -1,0 +1,92 @@
+# On CA
+./easyrsa init-pki
+./easyrsa build-ca
+# On Server
+./easyrsa init-pki
+./easyrsa gen-req UNIQUE_SERVER_SHORT_NAME nopass
+# On Client
+./easyrsa init-pki
+./easyrsa gen-req UNIQUE_CLIENT_SHORT_NAME
+
+# On CA
+./easyrsa import-req /path/to/received.req UNIQUE_SHORT_FILE_NAME
+./easyrsa show-req UNIQUE_SHORT_FILE_NAME
+./easyrsa sign-req client UNIQUE_SHORT_FILE_NAME
+./easyrsa sign-req server UNIQUE_SHORT_FILE_NAME
+# DH Gen
+./easyrsa gen-dh
+
+
+
+##################
+# Edit vars
+./easyrsa init-pki
+./easyrsa build-ca
+./easyrsa build-server-full <SERVER_NAME> nopass
+./easyrsa build-client-full <CLIENT_NAME> nopass
+
+./easytls init-tls
+./easytls build-tls-auth
+./easytls build-tls-crypt
+./easytls build-tls-crypt-v2-server <SERVER_NAME>
+./easytls build-tls-crypt-v2-client <SERVER_NAME> <CLIENT_NAME>
+./easytls inline-tls-auth Server-01
+
+###################
+# OpenSSL
+
+mkdir ~/certs
+cd ~/certs
+# ca key
+openssl genrsa -des3 -out myCA.key 2048
+# root cert
+openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+# CA-Signed Crt
+# Create key
+openssl genrsa -out hellfish.test.key 2048
+# Create CSR
+openssl req -new -key hellfish.test.key -out hellfish.test.csr
+# Create Extension 
+hellfish.test.ext
+	authorityKeyIdentifier=keyid,issuer
+	basicConstraints=CA:FALSE
+	keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+	subjectAltName = @alt_names
+
+	[alt_names]
+	DNS.1 = hellfish.test
+
+#create cert
+openssl x509 -req -in hellfish.test.csr -CA myCA.pem -CAkey myCA.key \
+-CAcreateserial -out hellfish.test.crt -days 825 -sha256 -extfile hellfish.test.ext
+
+
+
+#!/bin/sh
+
+if [ "$#" -ne 1 ]
+then
+  echo "Usage: Must supply a domain"
+  exit 1
+fi
+
+DOMAIN=$1
+
+cd ~/certs
+
+openssl genrsa -out $DOMAIN.key 2048
+openssl req -new -key $DOMAIN.key -out $DOMAIN.csr
+
+cat > $DOMAIN.ext << EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = $DOMAIN
+EOF
+
+openssl x509 -req -in $DOMAIN.csr -CA ../myCA.pem -CAkey ../myCA.key -CAcreateserial \
+-out $DOMAIN.crt -days 825 -sha256 -extfile $DOMAIN.ext
+
+
