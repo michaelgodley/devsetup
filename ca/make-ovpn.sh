@@ -3,17 +3,17 @@
 ##
 ## Usage: ./make-ovpn.sh SERVER CA_CERT CLIENT_CERT CLIENT_KEY SHARED_SECRET > client.ovpn
 ##
-
-server=${1?"The server address is required"}
-cacert=${2?"The path to the ca certificate file is required"}
-client_cert=${3?"The path to the client certificate file is required"}
-client_key=${4?"The path to the client private key file is required"}
-tls_key=${5?"The path to the TLS shared secret file is required"}
+client=${1?"The client identity is required"}
+server_ip=${2?"The server FQDN or IP is required"}
+if [ ! -f ./pki/issued/${client}.crt ]
+then
+   ./easyrsa build-client-full ${client} nopass
+fi
 
 cat << EOF
 client
 dev tun
-remote ${server}
+remote ${server_ip}
 resolv-retry infinite
 nobind
 user nobody
@@ -24,7 +24,7 @@ ca [inline]
 cert [inline]
 key [inline]
 tls-auth [inline] 1
-verb 1
+verb 3
 keepalive 10 120
 port 1194
 proto udp
@@ -34,22 +34,22 @@ comp-lzo
 remote-cert-tls server
 <ca>
 EOF
-cat ${cacert}
+cat ./pki/ca.crt
 cat << EOF
 </ca>
 <cert>
 EOF
-cat ${client_cert}
+cat ./pki/issued/${client}.crt
 cat << EOF
 </cert>
 <key>
 EOF
-cat ${client_key}
+cat ./pki/private/${client}.key
 cat << EOF
 </key>
 <tls-auth>
 EOF
-cat ${tls_key}
+cat ./ta.key
 cat << EOF
 </tls-auth>
 EOF
