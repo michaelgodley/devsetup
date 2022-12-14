@@ -31,6 +31,7 @@ if [[ "$1" == "dev" ]]; then
     aptinstall rustc
     aptinstall golang-go
     aptinstall ansible
+    aptinstall goaccess
     cargo install exa
     cargo install git-delta
     cargo install du-dust
