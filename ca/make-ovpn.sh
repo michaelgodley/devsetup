@@ -28,7 +28,7 @@ verb 3
 keepalive 10 120
 port 1194
 proto udp
-cipher AES-256-CBC
+;cipher AES-256-CBC
 auth SHA512
 comp-lzo
 remote-cert-tls server
