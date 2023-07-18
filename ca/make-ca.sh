@@ -1,3 +1,3 @@
 #!/bin/bash
 ./easyrsa init-pki
-./easyrsa build-ca
+./easyrsa build-ca nopass
