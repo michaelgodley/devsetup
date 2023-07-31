@@ -11,6 +11,7 @@ sudo apt upgrade -y
 
 source $(dirname "$0")/scripts/libs.sh
 
+aptinstall sipcalc
 aptinstall figlet
 aptinstall lolcat
 aptinstall htop
