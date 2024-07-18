@@ -55,6 +55,9 @@ hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a loa
 #hardstatus string "%{BW}%C%a, %D, %M %d, %Y%37=%{RY} host: %H %72=%{YR} load: %l%="
 # hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
 
+termcapinfo xterm* ti@:te@
+defscrollback 1000000
+
 screen -t shell 1
 screen -t shell 2
 screen -t shell 3
