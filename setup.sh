@@ -44,7 +44,7 @@ if [[ "$1" == "dev" ]]; then
     linkDotfile .gitmessage
     linkDotfile .gitconfig
     linkDotfile .screenrc
-    # ./programs.sh dev
+    ./programs.sh dev
     npminstall yo
     npminstall gtop
 elif [[ "$1" == "prod" ]]; then

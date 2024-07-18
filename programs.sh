@@ -11,7 +11,7 @@ cd ./scripts
 if [[ "$1" == "dev" ]]; then
     echo "Installing Development Tools"
     #./emacs.sh
-    ./node.sh
+    ./nvm.sh
     ./terraform.sh
     ./awscli.sh
     #    ./npmregistry.sh
